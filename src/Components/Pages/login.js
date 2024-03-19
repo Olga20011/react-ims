@@ -1,36 +1,39 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 import ajaxUser from '../../Utils/remote/ajaxUser';
+import { error } from 'jquery';
 
 
 function Login() {
 
   const [username,setUserName] = useState('')
   const [password,setPassword] = useState('')
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
 
-  const handleLogin = async() =>{
+  const handleLogin = async(e) =>{
+    e.preventDefault();
+    if(username.length>0 && password.length>0){
+    // setLoading(true);
     const server_response = await ajaxUser.loginUser(username,password)
+    console.log(server_response)
+    // setLoading(false);
+
     if(server_response.status==="OK"){
-        localStorage.setItem('mysystem@user',server_response.details)
-    console.log(server_response)
-
-    }
+        localStorage.setItem('mysystem@user', server_response.details)
+        console.log("here",server_response.details)
+        navigate('/home')
+        window.location.reload();
+      
+      }
   }
-
-  const [productListing,setProductListing] = useState(false)
-
-  useEffect(() => {
-    fetchProducts()
-  }, [])
+  else{
+    console.log("Please input both username and password!")
+  }
   
-
-
-  const fetchProducts = async() =>{
-    const server_response = await ajaxUser.listUsers()
-    // setProductListing(server_response)
-    console.log(server_response)
-  }
+}
 
 
     return (

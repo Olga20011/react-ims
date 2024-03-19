@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'; 
 
 
-function Register() {
+function RegisterPage() {
   return (
     <div className="container">
       <div className="row justify-content-center align-items-center vh-100">
@@ -51,7 +51,7 @@ function Register() {
                 <a className="small" href="forgot-password.html">Forgot Password?</a>
               </div>
               <div className="text-center">
-                <a className="small" href="login.html">Already have an account? Login!</a>
+              <Link to="/login" className="small">Already have an account? Login!</Link>
               </div>
             </div>
           </div>
@@ -61,4 +61,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default RegisterPage;

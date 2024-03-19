@@ -4,9 +4,9 @@ import dictionary from "../dictionary";
 const ACCESS_TOKEN = localStorage.getItem('mysystem@user');
 const apiHost = dictionary.apiHost
 
-const apiCall = async (endpoint, data)=>{
+const apiCall = async ( endpoint, data)=>{
 
-    console.log(apiHost)
+    console.log("tokeeen",ACCESS_TOKEN)
 
     try {
         let response = await axios.post(apiHost + endpoint, data,

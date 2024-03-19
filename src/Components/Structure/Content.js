@@ -1,7 +1,67 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import ajaxOrder from '../../Utils/remote/ajaxOrder'
+import ajaxProduct from '../../Utils/remote/ajaxProduct';
+import ajaxCustomer from '../../Utils/remote/ajaxCustomer';
+import ajaxSupplier from '../../Utils/remote/ajaxSupplier';
 
 
 function Content() {
+   
+    const [count , setCount]= useState(false);
+    const [prd , setCountPrd]= useState(false);
+    const [customer , setCustomer]= useState(false);
+    const [supplier , setSupplier]= useState(false);
+
+
+
+    const total_order = async()=>{
+        const server_response = await ajaxOrder.total()
+        console.log("object")
+        if(server_response.status==="OK"){
+            console.log(server_response)
+            setCount(server_response.details)
+  
+        }
+    }
+
+    const products = async()=>{
+        const server_response = await ajaxProduct.total_products()
+        console.log("object")
+        if(server_response.status==="OK"){
+            console.log(server_response)
+            setCountPrd(server_response.details)
+  
+        }
+    }
+
+    const customers = async()=>{
+        const server_response = await ajaxCustomer.total_customers()
+        console.log("object")
+        if(server_response.status==="OK"){
+            console.log(server_response)
+            setCustomer(server_response.details)
+  
+        }
+    }
+
+    const suppliers = async()=>{
+        const server_response = await ajaxSupplier.all_suppliers()
+        console.log("object")
+        if(server_response.status==="OK"){
+            console.log(server_response)
+            setSupplier(server_response.details)
+  
+        }
+    }
+  
+    useEffect(() => {
+      total_order()
+      products()
+      customers()
+      suppliers()
+    }, [])
+
+
   return (
 
     <div id="content">
@@ -21,7 +81,7 @@ function Content() {
                                         <div className="col mr-2">
                                             <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Orders</div>
-                                            <div className="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                            <div className="h5 mb-0 font-weight-bold text-gray-800">{count}</div>
                                         </div>
                                         <div className="col-auto">
                                         <i className="fas fa-fw fa-table fa-2x text-gray-300" />
@@ -40,7 +100,7 @@ function Content() {
                                         <div className="col mr-2">
                                             <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Products</div>
-                                            <div className="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                            <div className="h5 mb-0 font-weight-bold text-gray-800">{prd}</div>
                                         </div>
                                         <div className="col-auto">
                                         <i className="fa-brands fa-product-hunt fa-2x text-gray-300" />
@@ -58,7 +118,7 @@ function Content() {
                                         <div className="col mr-2">
                                             <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Customers</div>
-                                            <div className="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                            <div className="h5 mb-0 font-weight-bold text-gray-800">{customer}</div>
                                         </div>
                                         <div className="col-auto">
                                         <i className="fa fa-users fa-2x text-gray-300" aria-hidden="true" />
@@ -76,7 +136,7 @@ function Content() {
                                         <div className="col mr-2">
                                             <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Suppliers</div>
-                                            <div className="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                            <div className="h5 mb-0 font-weight-bold text-gray-800">{supplier}</div>
                                         </div>
                                         <div className="col-auto">
                                         <i className="fa fa-truck fa-2x text-gray-300" aria-hidden="true" />
