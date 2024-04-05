@@ -1,10 +1,11 @@
 import apiCall from "./apiCall";
 
 export default {
-    async createOrder(customer_id, prd_id,unit_price, quantity,date, status)
+    async createOrder(order_id,customer_id, prd_id,unit_price, quantity,date, status)
     {
       
         let data={
+            "order_id":order_id,
             "customer_id":customer_id,
             "prd_id":prd_id,
             "unit_price":unit_price,

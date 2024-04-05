@@ -26,15 +26,21 @@ export default {
     async getSupplierInfo(id){
 
         let data={
-            "id":id
+            id:id
         }
 
         let response = await apiCall("sup/info", data)
+        console.log(response)
         return response
+        
     },
 
 
-    async all_suppliers(data){
+    async all_suppliers(id){
+
+        let data = {
+            id:id
+        }
         let response= await apiCall("sup/total", data)
 
         return response;
@@ -43,9 +49,10 @@ export default {
 
 
 
-    async updateSupplier(supplier_name, phone_number, email, location){
+    async updateSupplier(id,supplier_name, phone_number, email, location){
 
         let data={
+            "id":id,
             "supplier_name":supplier_name,
             "phone_number":phone_number,
             "email":email,

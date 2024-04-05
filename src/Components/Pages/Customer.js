@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AppContainer from "../Structure/AppContainer";
 import ajaxCustomer from "../../Utils/remote/ajaxCustomer";
-import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import CustomModal from "../Common/Modals";
+import { Button } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 
 function Customer() {
+  const {id} = useParams();
   const [customer, setCustomer] = useState([]);
   const [state, setState] = useState({
     name: "",
@@ -12,6 +15,16 @@ function Customer() {
     email: "",
     location: "",
   });
+
+  const [showCustomer, setShowCustomer] = useState(false)
+
+  const handleShow = () =>{
+    setShowCustomer(true);
+  }
+
+  const handleCloseShowCustomer =() =>{
+    setShowCustomer(false);
+  }
 
   const { name, phone_number, email, location } = state;
 
@@ -24,10 +37,23 @@ function Customer() {
       location
     );
     console.log(server_response);
+    if(server_response.status=="OK"){
+      setState({
+        name:"",
+        phone_number:"",
+        email:"",
+        location:""
+        
+      })
+    }
+
+    fetchCustomers();
+    handleCloseShowCustomer();
   };
 
   useEffect(() => {
     fetchCustomers();
+    deleteCustomer();
   }, []);
 
   const fetchCustomers = async () => {
@@ -37,19 +63,38 @@ function Customer() {
     }
   };
 
+  const deleteCustomer = async (e) =>{
+    const server_response = await ajaxCustomer.deleteCustomer(id);
+    if(server_response.status==="OK"){
+      console.log(server_response)
+      fetchCustomers();
+
+    }
+  }
+
   return (
     <AppContainer title="Customers">
       <div className="nav-item dropdown no-arrow">
-        <Popup
-          trigger={
-            <button
+       
+            <Button
               className=" d-sm-inline-block btn btn-sm btn-primary"
               style={{ marginLeft: "1090px", marginTop: "-100px" }}
+              onClick={handleShow}
             >
               Create Customer
-            </button>
-          }
+            </Button>
+          
+         
+        <CustomModal
+
+          title="Create Customer"
+          show={showCustomer}
+          onHide={handleCloseShowCustomer}
+          button="Create Customer"
+          iconClass={"btn btn-primary"}
+          variant={"primary"}
           position="bottom center"
+        
         >
           <div>
             <form
@@ -64,6 +109,9 @@ function Customer() {
                 value={name}
                 onChange={(e) => setState({ ...state, name: e.target.value })}
               />
+
+              <br/>
+
               <input
                 type="text"
                 name="phone_number"
@@ -73,6 +121,9 @@ function Customer() {
                   setState({ ...state, phone_number: e.target.value })
                 }
               />
+
+              <br/>
+
               <input
                 type="email"
                 name="email"
@@ -80,6 +131,8 @@ function Customer() {
                 value={email}
                 onChange={(e) => setState({ ...state, email: e.target.value })}
               />
+
+              <br/>
               <input
                 type="text"
                 name="location"
@@ -91,11 +144,13 @@ function Customer() {
               />
 
               <div>
-                <button type="submit">Create Customer</button>
+                <button type="submit" onClick={(e)=>createCustomer(e)}>Create Customer</button>
               </div>
             </form>
           </div>
-        </Popup>
+
+          </CustomModal>
+        
       </div>
 
       <div className="col-md-12">
@@ -116,6 +171,7 @@ function Customer() {
                       <th>Phone Number</th>
                       <th>Email</th>
                       <th>Location</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
 
@@ -127,6 +183,17 @@ function Customer() {
                           <td>{item.phone_number}</td>
                           <td>{item.email}</td>
                           <td>{item.location}</td>
+                          <td>  <Link><i
+                                className="bi bi-pen-fill" 
+                                style={{ color: "#4e73df", marginLeft:'10px' }}
+                              ></i></Link>
+
+
+                              <i
+                                className="bi bi-trash"
+                                style={{ color: "#e74a3b", marginLeft:'20px'}}
+                                onClick={(e)=>deleteCustomer(e)}
+                              ></i></td>
                         </tr>
                       ))}
                   </tbody>

@@ -16,6 +16,12 @@ import Orders from "./Components/Pages/Orders";
 import Login from "./Components/Pages/login";
 import RegisterPage from "./Components/Pages/RegisterPage";
 import  CreateProduct from "./Components/Pages/CreateProducts";
+import EditProduct from "./Components/Pages/EditProduct";
+import Delete from "./Components/Pages/DeleteProduct";
+import EditSupplier from "./Components/Pages/EditSupplier";
+import DeleteSupplier from "./Components/Pages/DeleteSupplier";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CustomModal from "./Components/Common/Modals";
 
 
 
@@ -34,12 +40,16 @@ function App() {
               <Route path="/forgotpass" element={<Forgotpassword/>}/>
               <Route path="/home" element={<Home/>}/>
               <Route path="create" element={<CreateProduct/>}/>
-              {/* <Route path="/test" element={<Test/>}/> */}
+              <Route path="edit/:id" element={<EditProduct/>}/>
+              <Route path="delete/:id" element={<Delete/>}/>
+              <Route path="editSupplier/:id" element={<EditSupplier/>}/>
+              <Route path="/deleteSupplier/:id" element={<DeleteSupplier/>} /> 
               <Route path="/products" element={<Products/>}/>
-              <Route path="/supplier" element={<Suppliers/>}/>
-              <Route path="/customer" element={<Customer/>}/>
+              <Route path="/suppliers" element={<Suppliers/>}/>
+              <Route path="/customers" element={<Customer/>}/>
               <Route path="/inventory" element={<Inventory/>}/>
-              <Route path="/order" element={<Orders/>}/>
+              <Route path="/orders" element={<Orders/>}/>
+              <Route path="/modal" element={<CustomModal/>}/>
      
              </Switch>
 

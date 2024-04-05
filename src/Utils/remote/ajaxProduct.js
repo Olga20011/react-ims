@@ -2,7 +2,7 @@ import apiCall from "./apiCall";
 
 
 export default {
-    async createProduct(prd_name, prd_category,prd_description,supplier, buying_price,selling_price, qty_in, qty_out, reorder_point)
+    async createProduct(prd_name, prd_category,prd_description,supplier, buying_price,selling_price, qty_in, qty_out, minimum_stock_value)
     {
       
         let data={
@@ -14,7 +14,7 @@ export default {
             "selling_price":selling_price,
             "qty_in":qty_in,
             "qty_out":qty_out,
-            "reorder_point":reorder_point
+            "minimum_stock_value":minimum_stock_value
 
             
 
@@ -31,13 +31,16 @@ export default {
 
     },
 
-    async getProductInfo(id)
+    async newProducts(data)
+    {
+        let response = await apiCall("product/new", data)
+        return response;
+
+    },
+
+    async getProductInfo(data)
     {
 
-        let data={
-            "id":id
-
-        }
         let response = await apiCall("product/info", data)
         return response;
 
@@ -48,9 +51,10 @@ export default {
         return response;
 
     },
-    async updateProduct(prd_name, prd_category,prd_description,supplier, buying_price,selling_price){
+    async updateProduct(id,prd_name, prd_category,prd_description,supplier, buying_price,selling_price){
 
         let data={
+             id:id,
             "prd_name":prd_name,
             "prd_category":prd_category,
             "prd_description":prd_description,

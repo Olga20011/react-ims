@@ -1,7 +1,11 @@
 
 import AppContainer from "../Structure/AppContainer";
-import React ,{  useState } from "react";
+import React ,{  useState , useEffect} from "react";
 import ajaxProduct from "../../Utils/remote/ajaxProduct";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ajaxSupplier from "../../Utils/remote/ajaxSupplier";
+import ajaxCategory from "../../Utils/remote/ajaxCategory";
 
 
 function CreateProduct() {
@@ -15,9 +19,30 @@ function CreateProduct() {
         selling_price: "",
         qty_in: "",
         qty_out: "",
-        reorder_point: "",
+        minimum_stock_value: "",
       });
 
+      const [suppliers, setSupplier] = useState('')
+      const [category, setCatetory]= useState('')
+
+      const fetchSuppliers = async () =>{
+         const server_response = await ajaxSupplier.listSupplier()
+         if (server_response.status==="OK"){
+          setSupplier(server_response.details)
+         }
+      }
+
+      const fetchCategories =  async () =>{
+        const server_response = await ajaxCategory.listCategory()
+        if(server_response.status==="OK"){
+          setCatetory(server_response.details)
+        }
+      }
+
+      useEffect(() => {
+        fetchSuppliers()
+        fetchCategories()
+      }, [])
 
       const CreateProducts = async (e) => {
         e.preventDefault();
@@ -31,9 +56,27 @@ function CreateProduct() {
           selling_price,
           qty_in,
           qty_out,
-          reorder_point
+          minimum_stock_value
         );
         console.log(server_response);
+
+        if (server_response.status==="OK"){
+          setState({
+            prd_name: "",
+            prd_category: "",
+            prd_description: "",
+            supplier: "",
+            buying_price: "",
+            selling_price: "",
+            qty_in: "",
+            qty_out: "",
+            minimum_stock_value: ""
+          });
+          // toast.success(server_response.data.message)
+          
+        }else{
+          console.log("Error")
+        }
       };
 
       const {
@@ -45,18 +88,23 @@ function CreateProduct() {
         selling_price,
         qty_in,
         qty_out,
-        reorder_point,
+        minimum_stock_value,
       } = state;
 
+
+      const handleChange = (e) =>{
+        const {name, value} = e.target;
+        setState({...state, [name]: value});
+      }
 
   return (
     <AppContainer title="Create New Product">
       <div className="col-md-12">
-        <div className="card w-75  mt-5">
+        <div className="card w-75 ">
           <div className="card-body shadow-lg rounded-lg">
             <form
             className="prd"
-            onSubmit={(e) => CreateProducts(e)}
+            onSubmit={(e) => CreateProducts(e) }
             method="POST">
               <div className="form-group row">
                 <label
@@ -89,17 +137,24 @@ function CreateProduct() {
                   Product Category
                 </label>
                 <div className="col-sm-6 ml-5">
-                  <input
-                    type="text"
-                    className="form-control mb-3"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    name="prd_category"
-                    value={prd_category}
-                    onChange={(e) =>
-                  setState({ ...state, prd_category: e.target.value })
-                }
-                  />
+                  <select
+                   className="form-control mb-3"
+                   name="category"
+                   value={state.category}
+                   onChange={handleChange}
+                  >
+
+                    <option value="Select Category"></option>
+                    {Array.isArray(category) && category.map((category)=>
+                    <option key={category.id} value={category.id}>
+                      {category.category_name}
+
+                    </option>
+                    )}
+
+
+                  </select>
+                  
                 </div>
               </div>
 
@@ -134,17 +189,22 @@ function CreateProduct() {
                   Supplier
                 </label>
                 <div className="col-sm-6 ml-5">
-                  <input
-                    type="text"
-                    className="form-control mb-3"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    name="supplier"
-                    value={supplier}
-                    onChange={(e) =>
-                      setState({ ...state, supplier: e.target.value })
-                    }
-                  />
+                  <select
+                  className="form-control mb-3"
+                  name="supplier"
+                  value={state.supplier}
+                  onChange={handleChange}
+                  >
+                    <option value="Select Supplier"></option>
+                    {Array.isArray(suppliers) && suppliers.map((supplier)=>
+                    <option key={supplier.id} value={supplier.id}>
+                      {supplier.supplier_name}
+
+                    </option>
+                    )}
+
+                  </select>
+                 
                 </div>
               </div>
 
@@ -239,7 +299,7 @@ function CreateProduct() {
                   htmlFor="inputEmail3"
                   className="col-sm-2 col-form-label ml-5"
                 >
-                  Reorder Point
+                  Minimum stock value
                 </label>
                 <div className="col-sm-6 ml-5">
                   <input
@@ -247,10 +307,10 @@ function CreateProduct() {
                     className="form-control mb-3"
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp"
-                    name="reorder_point"
-                    value={reorder_point}
+                    name="minimum_stock_value"
+                    value={minimum_stock_value}
                     onChange={(e) =>
-                      setState({ ...state, reorder_point: e.target.value })
+                      setState({ ...state, minimum_stock_value: e.target.value })
                     }
                   />
                 </div>
@@ -263,6 +323,7 @@ function CreateProduct() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </AppContainer>
   );
 }

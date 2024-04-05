@@ -14,9 +14,15 @@ function Home() {
           <div className='col-md-12'>
 
             <Content/>
-
-            
-  
+{/* 
+            id,
+            prd_name,
+            prd_category,
+            prd_description,
+            supplier,
+            buying_price,
+            selling_price
+   */}
           </div>
       </AppContainer>
     )

@@ -1,20 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
+import imsImage from "../../Images/ims.jpeg"
 
 
 function RegisterPage() {
   return (
     <div className="container">
-      <div className="row justify-content-center align-items-center vh-100">
-        <div className="col-sm-8"> {/* Adjust col size as needed for desired width */}
-          <div className="card o-hidden border-0 shadow-lg my-5">
-            <div className="card-body p-5">
-              <div className="text-center">
-                <div>
-              <h1 className="h1 text-black mb-7">Welcome to IMS!</h1>
-              </div>
-                <h2 className="h4 text-gray-900 mb-4">Create an Account!</h2>
-              </div>
+     <div className="card o-hidden border-0 shadow-lg my-5">
+            <div className="card-body p-0">
+                { /* Nested Row within Card Body */ }
+                <div className="row">
+                <div className="col-lg-5 d-none d-lg-block " >
+                <img src={imsImage} alt="Inventory" style={{height:"620px" , width:"500px"}}/>
+
+                </div>
+                    <div className="col-lg-7">
+                        <div className="p-5">
+                            <div className="text-center">
+                                <h1 className="h4 text-gray-900 mb-4">Create an Account!</h1>
               <form className="user">
                 <div className="form-group row">
                   <div className="col-sm-6 mb-3 mb-sm-0">
@@ -57,7 +60,12 @@ function RegisterPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      </div>
+      </div>
+      
+
+      
   );
 }
 

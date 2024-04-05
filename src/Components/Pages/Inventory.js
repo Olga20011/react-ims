@@ -45,7 +45,7 @@ function Inventory() {
            <th>Product ID</th>
            <th>Qty In</th>
            <th>Qty Out</th>
-           <th>Reorder Point</th>
+           <th>Minimum_stock_value</th>
          </tr>
        </thead>
      
@@ -57,7 +57,7 @@ function Inventory() {
            <td>{item.prd_id}</td>
            <td>{item.qty_in}</td>
            <td>{item.qty_out}</td>
-           <td>{item.reorder_point}</td>
+           <td>{item.minimum_stock_value}</td>
 
          </tr>
          

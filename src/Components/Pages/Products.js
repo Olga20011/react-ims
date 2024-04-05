@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import AppContainer from "../Structure/AppContainer";
 import Content from "../Structure/Content";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { ajax } from "jquery";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import ajaxProduct from "../../Utils/remote/ajaxProduct";
+import EditProduct from "./EditProduct";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const {id} = useParams();
 
   const [state, setState] = useState({
     prd_name: "",
@@ -21,7 +25,7 @@ function Products() {
     selling_price: "",
     qty_in: "",
     qty_out: "",
-    reorder_point: "",
+    minimum_stock_value: "",
   });
 
   useEffect(() => {
@@ -36,6 +40,7 @@ function Products() {
     }
   };
 
+ 
   //  console.log(products)
   return (
     <AppContainer title="Products">
@@ -71,6 +76,8 @@ function Products() {
                     <th>Supplier</th>
                     <th>Buying Price</th>
                     <th>Selling Price</th>
+                    <th>Actions</th>
+                  
                   </tr>
                 </thead>
 
@@ -84,6 +91,23 @@ function Products() {
                         <td>{item.supplier}</td>
                         <td>{item.buying_price}</td>
                         <td>{item.selling_price}</td>
+                        <td>
+
+                                <Link to={`/edit/${item.id}`}><i
+                                className="bi bi-pen-fill" 
+                                style={{ color: "#4e73df", marginLeft:'10px' }}
+                              ></i></Link>
+
+
+                              <Link to={`/delete/${item.id}`}><i
+                                className="bi bi-trash"
+                                style={{ color: "#e74a3b", marginLeft:'20px'}}
+                              ></i></Link>
+                              
+
+                             
+                              
+                        </td>
                       </tr>
                     ))}
                 </tbody>

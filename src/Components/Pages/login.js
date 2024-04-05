@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'; 
 import ajaxUser from '../../Utils/remote/ajaxUser';
 import { error } from 'jquery';
-
+import invImage from "../../Images/inv.jpeg"
 
 function Login() {
 
@@ -34,18 +34,24 @@ function Login() {
   }
   
 }
+ console.log(invImage)
 
-
-    return (
+return (
       <div className="container">
-        <div className="row justify-content-center align-items-center vh-100">
-          <div className="col-sm-8">
-            <div className="card o-hidden border-0 shadow-lg my-5">
-              <div className="card-body p-0">
-                <div className="row">
-                  <div className="col-lg-8 mx-auto"> {/* Center the column horizontally */}
+       <div className="row justify-content-center">
+
+<div className="col-xl-10 col-lg-12 col-md-9">
+
+    <div className="card o-hidden border-0 shadow-lg my-5">
+        <div className="card-body p-0">
+            { /* Nested Row within Card Body */ }
+            <div className="row">
+            <div className="col-lg-6 d-none d-lg-block">
+            <img src={invImage} alt="Inventory"  style={{height:"580px" , width:"500px"}}/>
+              </div>
+                <div className="col-lg-6">
                     <div className="p-5">
-                      <div className="text-center">
+                        <div className="text-center">
                         <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
                       </div>
                       <form className="user">

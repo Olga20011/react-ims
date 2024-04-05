@@ -49,7 +49,7 @@ function Sidebar() {
 
             { /* Nav Item - Utilities Collapse Menu */ }
             <li className="nav-item">
-            <Link to="../supplier" className="nav-link">
+            <Link to="../suppliers" className="nav-link">
                 <i className="fa fa-truck " />
                     <span>Suppliers</span></Link>
             </li>
@@ -60,7 +60,7 @@ function Sidebar() {
 
             { /* Nav Item - Pages Collapse Menu */ }
              <li className="nav-item">
-             <Link to="../customer" className="nav-link">
+             <Link to="../customers" className="nav-link">
                 <i className="fa fa-users " />
                     <span>Customers</span></Link>
             </li>
@@ -77,7 +77,7 @@ function Sidebar() {
             { /* Nav Item - Tables */ }
             <hr className="sidebar-divider" />
             <li className="nav-item">
-            <Link to="../order" className="nav-link">
+            <Link to="../orders" className="nav-link">
                     <i className="fas fa-fw fa-table" />
                     <span>Orders</span></Link>
             </li>
