@@ -18,6 +18,9 @@ function Suppliers() {
   const [PhoneNumber, setPhoneNumber] = useState("");
   const [Email, setEmail] = useState("");
   const [Location, setLocation]= useState("")
+  const [page , setPage] = useState(1);
+  const [meta , setMeta] = useState("");
+  const [limit , setLimit] = useState(10);
 
 
   const [state, setState] = useState({
@@ -33,7 +36,7 @@ function Suppliers() {
   useEffect(() => {
     fetchSuppliers();
     getSupplier();
-  }, []);
+  }, [page]);
 
   const { supplier_name, phone_number, email, location } = state;
 
@@ -107,13 +110,10 @@ function Suppliers() {
     setPhoneNumber(server_response.details.phone_number);
     setEmail(server_response.details.email);
     setLocation(server_response.details.location);
-
     console.log(server_response)
       
     }
 };
-
-
   const updateSupplier = async (e) => {
     e.preventDefault();
     console.log(state.id)
@@ -130,15 +130,27 @@ function Suppliers() {
     }
   };
 
- 
-
   const fetchSuppliers = async () => {
-    const server_response = await ajaxSupplier.listSupplier();
+    const server_response = await ajaxSupplier.listSupplier(page, limit);
     if (server_response.status === "OK") {
-      setSupplier(server_response.details);
-      console.log(server_response)
+      setMeta(server_response.details.meta.list_of_pages)
+      setSupplier(server_response.details.list);
+      
     }
   };
+
+  const nextPage  = () =>{
+    setPage(page + 1)
+  }
+
+  const PrevPage = () =>{
+    setPage(page - 1)
+  }
+
+  const setPageNumber = (e, item) =>{
+    setPage(item);
+
+  }
 
   return (
     <>
@@ -153,7 +165,6 @@ function Suppliers() {
       <div className="nav-item dropdown no-arrow">
         <CustomModal
 
-        
           title="Create Supplier"
           show={showCreateModal}
           onHide={handleCloseCreateModal}
@@ -163,7 +174,6 @@ function Suppliers() {
           position="bottom center"
         >
 
-         
           <div>
             <form
               className="supplier"
@@ -282,6 +292,43 @@ function Suppliers() {
                         </tr>
                       ))}
                   </tbody>
+
+                  <div>
+                  <button className=" d-sm-inline-block btn btn-sm btn-primary"
+                   style={{ marginTop:"20px"}} 
+                   onClick={PrevPage}>
+                  Prev
+                  </button>
+
+                  {Array.isArray(meta)&&
+                  meta.map((item)=>
+                  page===item ? (
+                    <button style={{marginBottom:"-20px"}} 
+                    className="btn btn-dark">
+                      {item}
+                    </button>
+                  ):(
+                    <button 
+                    onClick={(e)=>setPageNumber(e, item)}
+                    className="btn btn-dark"
+                    style={{marginBottom:"-20px"}}>
+                    
+                      {item}
+
+                    </button>
+                  )
+                
+                )}
+                </div> 
+
+                <div style={{}}>
+                  <button className=" d-sm-inline-block btn btn-sm btn-primary" 
+                  style={{ marginLeft:"110px", marginTop:"-56px"}}
+                  onClick={nextPage}>
+                   Next
+                  </button>
+                </div>
+                  
                 </table>
               </div>
             </div>

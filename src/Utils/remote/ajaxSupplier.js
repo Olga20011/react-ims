@@ -16,7 +16,11 @@ export default {
     },
 
                 
-    async listSupplier(data){
+    async listSupplier(page){
+
+        let data={
+            "page":page
+        }
 
         let response = await apiCall("sup/list", data)
         return response

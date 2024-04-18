@@ -22,6 +22,7 @@ import EditSupplier from "./Components/Pages/EditSupplier";
 import DeleteSupplier from "./Components/Pages/DeleteSupplier";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CustomModal from "./Components/Common/Modals";
+import Cart from  "./Components/Pages/Cart";
 
 
 
@@ -49,6 +50,7 @@ function App() {
               <Route path="/customers" element={<Customer/>}/>
               <Route path="/inventory" element={<Inventory/>}/>
               <Route path="/orders" element={<Orders/>}/>
+              <Route path="/cart/:id" element={<Cart/>}/>
               <Route path="/modal" element={<CustomModal/>}/>
      
              </Switch>

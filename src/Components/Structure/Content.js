@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ajaxOrder from "../../Utils/remote/ajaxOrder";
 import ajaxProduct from "../../Utils/remote/ajaxProduct";
 import ajaxCustomer from "../../Utils/remote/ajaxCustomer";
 import ajaxSupplier from "../../Utils/remote/ajaxSupplier";
@@ -12,13 +11,13 @@ function Content() {
   const [supplier, setSupplier] = useState(false);
   const [product, setProduct] = useState([]);
 
-  const total_order = async () => {
-    const server_response = await ajaxOrder.total();
-    if (server_response.status === "OK") {
-      console.log(server_response);
-      setCount(server_response.details);
-    }
-  };
+  // const total_order = async () => {
+  //   const server_response = await ajaxOrder.total();
+  //   if (server_response.status === "OK") {
+  //     console.log(server_response);
+  //     setCount(server_response.details);
+  //   }
+  // };
 
   const products = async () => {
     const server_response = await ajaxProduct.total_products();
@@ -55,7 +54,7 @@ function Content() {
   }
 
   useEffect(() => {
-    total_order();
+    // total_order();
     products();
     customers();
     suppliers();

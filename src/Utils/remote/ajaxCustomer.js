@@ -16,8 +16,12 @@ export default {
 
     },
 
-    async listCustomers(data)
+    async listCustomers(page)
     {
+
+        let data={
+            "page":page
+        }
         let response = await apiCall("customer/list", data)
         return response;
 
@@ -50,7 +54,6 @@ export default {
         }
         let response = await apiCall("customer/update", data)
         return response;
-
 
     },
 

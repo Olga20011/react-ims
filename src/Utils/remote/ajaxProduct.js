@@ -1,3 +1,4 @@
+import { data } from "jquery";
 import apiCall from "./apiCall";
 
 
@@ -24,8 +25,11 @@ export default {
 
     },
 
-    async listProducts(data)
+    async listProducts(page)
     {
+        let data={
+            "page":page
+        }
         let response = await apiCall("product/list", data)
         return response;
 
@@ -67,6 +71,13 @@ export default {
         let response = await apiCall("product/update", data)
         return response;
 
+
+    },
+
+    async tableLimit(){
+
+        let response = apiCall("product/limit", data)
+        return response;
 
     },
 

@@ -16,8 +16,12 @@ export default {
 
     },
 
-    async listInventory(data)
+    async listInventory(page)
     {
+
+        let data={
+            "page":page
+        }
         let response = await apiCall("inv/list", data)
         return response;
 

@@ -9,10 +9,19 @@ import { ajax } from "jquery";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import ajaxProduct from "../../Utils/remote/ajaxProduct";
 import EditProduct from "./EditProduct";
+import { Prev } from "react-bootstrap/esm/PageItem";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1)
+
+  const [meta , setMeta] = useState("");
+  const [limit, setLimit] =useState(10)
+  const [TotalPages, setTotalPages] = useState(0)
+  const [CurrentPageNumber, setCurrentPageNumber] = useState(0)
+
+
 
   const {id} = useParams();
 
@@ -30,18 +39,37 @@ function Products() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+   
+  }, [page]);
 
   const fetchData = async () => {
-    const server_response = await ajaxProduct.listProducts();
+    const server_response = await ajaxProduct.listProducts(page, limit);
     // console.log(server_response)
     if ((server_response.status = "Ok")) {
-      setProducts(server_response.details);
+      setMeta(server_response.details.meta.list_of_pages)
+      setProducts(server_response.details.list);
+      setTotalPages(server_response.details.meta.total_pages)
+      setCurrentPageNumber(server_response.details.meta.current_page)
+     
     }
   };
 
- 
-  //  console.log(products)
+  const nextPage = () =>{
+    setPage(page + 1)
+  }
+
+  const PreviousPage = () =>{
+    // if(page === 1){
+    // }else{
+      setPage(page- 1)
+    // }
+  }
+
+  const setPageNumber = (e, item) =>{
+    setPage(item);
+  }
+
+  
   return (
     <AppContainer title="Products">
       <div className="nav-item dropdown no-arrow">
@@ -70,6 +98,7 @@ function Products() {
               >
                 <thead>
                   <tr>
+                   
                     <th>Product Name</th>
                     <th>Product Category</th>
                     <th>Product Description</th>
@@ -85,6 +114,7 @@ function Products() {
                   {Array.isArray(products) &&
                     products.map((item) => (
                       <tr key={item.id}>
+                    
                         <td>{item.prd_name}</td>
                         <td>{item.prd_category}</td>
                         <td>{item.prd_description}</td>
@@ -103,14 +133,62 @@ function Products() {
                                 className="bi bi-trash"
                                 style={{ color: "#e74a3b", marginLeft:'20px'}}
                               ></i></Link>
-                              
-
-                             
-                              
+                            
                         </td>
                       </tr>
                     ))}
                 </tbody>
+
+              <>  <div>
+                  <button 
+                  className=" d-sm-inline-block btn btn-sm btn-primary"
+                  style={{  marginTop: "20px" }}
+                  onClick={PreviousPage}>
+                  Prev
+                  </button>
+
+
+                  {Array.isArray(meta)&&
+                  meta.map((item)=>
+                  page===item ? (
+                    <button
+                    style={{marginBottom:"-20px"}}
+                    className="btn btn-dark">
+                      {item}
+                    </button>
+                  ):(
+                    <button
+                    onClick={(e) =>setPageNumber(e, item)}
+                    className="btn btn-dark"
+                    style={{marginBottom:"-20px"}}>
+                      {item}
+                    </button>
+                  )
+                
+
+                )}
+
+               
+             
+                </div>
+
+                <div style={{display:"flex"}}>
+                  <button 
+                  className=" d-sm-inline-block btn btn-sm btn-primary"
+                  style={{ marginLeft:"110px", marginTop:"-31px"}}
+                  onClick={nextPage}>
+                   Next
+                  </button>
+                </div>
+
+                <div 
+                style={{marginLeft:"300px", marginTop:"-30px"}}
+                >
+                 
+                  <b><p>{CurrentPageNumber} / {TotalPages}</p></b>
+                  
+                </div>
+                </>
               </table>
             </div>
           </div>
